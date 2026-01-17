@@ -1,35 +1,60 @@
 from youtube_transcript_api import YouTubeTranscriptApi
+from urllib import parse
 import re
 
 def extract_video_id(youtube_url: str) -> str:
     """
-    TODO:
-    - Support common formats:
-        - https://www.youtube.com/watch?v=VIDEO_ID
-        - https://youtu.be/VIDEO_ID
-    - Strip extra parameters (e.g., &t=123, &list=...)
-    - Validate result:
-        - If you cannot extract a plausible ID, raise ValueError with a clear message
+    Extract a YouTube video ID from common URL formats:
+    - https://www.youtube.com/watch?v=VIDEO_ID
+    - https://youtu.be/VIDEO_ID
+    - https://www.youtube.com/embed/VIDEO_ID
+    - https://www.youtube.com/shorts/VIDEO_ID
+
+    Raises ValueError if no plausible video ID can be found.
     """
     
-    pattern_long = r"https\://www\.youtube\.com/watch\?v=([A-Za-z0-9\-\_]{11})"
-    pattern_short = r"youtu\.be/([A-Za-z0-9\-\_]{11})"
-    
-    match_long = re.search(pattern_long, youtube_url)
-    match_short = re.search(pattern_short, youtube_url)
-    
-    long_url: bool = bool(match_long)
-    short_url: bool = bool(match_short)
-    
-    # usually 11 characters
-    if long_url:
-        id = match_long.group(1)
-    elif short_url:
-        id = match_short.group(1)   
-    else:
-        raise ValueError("Can not find video id! Check the YT link.")
-    
-    return id
+    if not youtube_url or not isinstance(youtube_url, str):
+        raise ValueError("No ID found")
+
+    parsed = parse.urlparse(youtube_url)
+    host = (parsed.netloc or "").lower()
+    path = parsed.path or ""
+
+    # Accept common YouTube hosts (keep strict to avoid example.com/watch?v=...)
+    allowed_hosts = {
+        "youtube.com",
+        "www.youtube.com",
+        "m.youtube.com",
+        "youtu.be",
+        "www.youtu.be",
+    }
+    if host not in allowed_hosts:
+        raise ValueError("No ID found")
+
+    def _validate(video_id: str) -> str:
+        if re.fullmatch(r"[A-Za-z0-9_-]{11}", video_id):
+            return video_id
+        raise ValueError("No ID found")
+
+    # 1) Long URLs: /watch?v=...
+    if host in {"youtube.com", "www.youtube.com", "m.youtube.com"}:
+        qs = parse.parse_qs(parsed.query)
+        v = qs.get("v", [None])[0]
+        if v:
+            return _validate(v)
+
+        # 2) Path-based formats: /embed/ID, /shorts/ID
+        parts = [p for p in path.split("/") if p]
+        if len(parts) >= 2 and parts[0] in {"embed", "shorts"}:
+            return _validate(parts[1])
+
+    # 3) Short URLs: youtu.be/ID
+    if host in {"youtu.be", "www.youtu.be"}:
+        parts = [p for p in path.split("/") if p]
+        if parts:
+            return _validate(parts[0])
+
+    raise ValueError("No ID found")
 
 
 def fetch_transcript(video_id: str, languages: list[str]) -> list[dict]:
@@ -83,13 +108,7 @@ def main() -> None:
     
     video_url = "https://www.youtube.com/watch?v=Ir9QYpHeRAc" 
     video_id = extract_video_id(video_url)
-
-    ytt_api = YouTubeTranscriptApi()
-    fetched_transcript = ytt_api.fetch(video_id, languages=[languages])
-
-    # is iterable
-    for snippet in fetched_transcript:
-        print(snippet.text)
+    print(video_id)
 
 
 if __name__ == "__main__":
