@@ -6,7 +6,8 @@ dependencies = [
     "requests",
     "pydantic",
     "python-dotenv",
-    "youtube-transcript-api"
+    "youtube-transcript-api",
+    "pytest"
 ]
 
 [build-system]
