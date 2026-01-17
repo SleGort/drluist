@@ -1,4 +1,6 @@
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api._errors import NoTranscriptFound
+from youtube_transcript_api.formatters import JSONFormatter
 from urllib import parse
 import re
 
@@ -66,8 +68,24 @@ def fetch_transcript(video_id: str, languages: list[str]) -> list[dict]:
         - raise ValueError (or a custom exception later) with a clear message
     - Return the raw transcript list of dicts (items contain at least "text")
     """
-    ytt_api = YouTubeTranscriptApi()
-    fetched_transcript = ytt_api.fetch(video_id, languages=[languages])
+    
+    # Get a list of available transcripts
+    transcript_list = YouTubeTranscriptApi().list(video_id)
+    # Try to find a manually created one
+    try:
+        transcript = transcript_list.find_manually_created_transcript(languages)
+    # If that fails try to find auto generated one in the same language
+    except NoTranscriptFound:
+        # Try auto-generated
+        print("")
+        try:
+            transcript = transcript_list.find_generated_transcript(languages)
+        except NoTranscriptFound:
+            # Both manual AND auto-generated transcripts failed
+            raise ValueError("Transcript unavailable for the given video ID and languages.")
+
+    
+    return transcript.fetch()
 
 
 def transcript_to_text(transcript: list[dict]) -> str:
@@ -103,12 +121,17 @@ def main() -> None:
         - transcript is returned
         - language looks correct
     """
-    
-    language = 'nl'
+    # de-DE, fr-FR, nl-Nl, en-US, de, fr, nl, en
+    language = ['nl-NL', 'nl', 'en']
     
     video_url = "https://www.youtube.com/watch?v=Ir9QYpHeRAc" 
-    video_id = extract_video_id(video_url)
-    print(video_id)
+    auto_subtitles = "https://www.youtube.com/watch?v=XZ1nymJClQc"
+    
+    video_id = extract_video_id(auto_subtitles)
+    
+    transcript = fetch_transcript(video_id, language)
+    
+    print(transcript)
 
 
 if __name__ == "__main__":
