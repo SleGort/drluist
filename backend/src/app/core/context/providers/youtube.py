@@ -1,4 +1,5 @@
 from youtube_transcript_api import YouTubeTranscriptApi
+import re
 
 def extract_video_id(youtube_url: str) -> str:
     """
@@ -10,7 +11,25 @@ def extract_video_id(youtube_url: str) -> str:
     - Validate result:
         - If you cannot extract a plausible ID, raise ValueError with a clear message
     """
-    ...
+    
+    pattern_long = r"https\://www\.youtube\.com/watch\?v=([A-Za-z0-9\-\_]{11})"
+    pattern_short = r"youtu\.be/([A-Za-z0-9\-\_]{11})"
+    
+    match_long = re.search(pattern_long, youtube_url)
+    match_short = re.search(pattern_short, youtube_url)
+    
+    long_url: bool = bool(match_long)
+    short_url: bool = bool(match_short)
+    
+    # usually 11 characters
+    if long_url:
+        id = match_long.group(1)
+    elif short_url:
+        id = match_short.group(1)   
+    else:
+        raise ValueError("Can not find video id! Check the YT link.")
+    
+    return id
 
 
 def fetch_transcript(video_id: str, languages: list[str]) -> list[dict]:
