@@ -6,13 +6,29 @@ import re
 
 def extract_video_id(youtube_url: str) -> str:
     """
-    Extract a YouTube video ID from common URL formats:
+    Extracts a YouTube video ID from common URL formats.
+
+    Supported formats
+    -----------------
     - https://www.youtube.com/watch?v=VIDEO_ID
     - https://youtu.be/VIDEO_ID
     - https://www.youtube.com/embed/VIDEO_ID
     - https://www.youtube.com/shorts/VIDEO_ID
 
-    Raises ValueError if no plausible video ID can be found.
+    Parameters
+    ----------
+    youtube_url : str
+        The YouTube URL from which to extract the video ID.
+
+    Returns
+    -------
+    str
+        The extracted 11-character YouTube video ID.
+
+    Raises
+    ------
+    ValueError
+        Raised if no plausible video ID can be found in the provided URL.
     """
     
     if not youtube_url or not isinstance(youtube_url, str):
@@ -61,16 +77,31 @@ def extract_video_id(youtube_url: str) -> str:
 
 def fetch_transcript(video_id: str, languages: list[str]) -> list[dict]:
     """
-    TODO:
-    - Call youtube-transcript-api to fetch transcript for `video_id`
-      with preferred `languages` (Dutch first, then fallback)
-    - If transcript is unavailable/disabled/video not found:
-        - raise ValueError (or a custom exception later) with a clear message
-    - Return the raw transcript list of dicts (items contain at least "text")
+    Fetches the manually created transcript, reverts to auto-generated transcript 
+    if the manual is unavailable
+
+    Parameters
+    ----------
+    video_id : str
+        String of video id
+    languages : list[str]
+        A list of languages to be used
+
+    Returns
+    -------
+    list[dict]
+        FetchedTranscript object
+
+    Raises
+    ------
+    ValueError
+        Raises an error if no transcript is available.
     """
     
     # Get a list of available transcripts
-    transcript_list = YouTubeTranscriptApi().list(video_id)
+    
+    ytt = YouTubeTranscriptApi()
+    transcript_list = ytt.list(video_id)
     # Try to find a manually created one
     try:
         transcript = transcript_list.find_manually_created_transcript(languages)
@@ -84,19 +115,17 @@ def fetch_transcript(video_id: str, languages: list[str]) -> list[dict]:
             # Both manual AND auto-generated transcripts failed
             raise ValueError("Transcript unavailable for the given video ID and languages.")
 
-    
     return transcript.fetch()
 
-
-def transcript_to_text(transcript: list[dict]) -> str:
-    """
-    TODO:
-    - Convert raw transcript (list of dicts) into one clean string:
-        - concatenate item["text"] with spaces or newlines
-        - remove extra whitespace
-    - Return the cleaned transcript text
-    """
-    ...
+def transcript_to_text(transcript):
+    
+    text =[]
+    for snippet in transcript:
+        text.append(snippet.text)
+    full_text = " ".join(text)
+    return full_text
+    
+    
 
 
 def get_transcript(youtube_url: str, languages: list[str] | None = None) -> str:
@@ -126,12 +155,20 @@ def main() -> None:
     
     video_url = "https://www.youtube.com/watch?v=Ir9QYpHeRAc" 
     auto_subtitles = "https://www.youtube.com/watch?v=XZ1nymJClQc"
+    short_vid = "https://www.youtube.com/watch?v=m1cbmZhuxMM&list=PL9sr-h7F8RHol58xIFLN6-cQzoO8aj2E0&index=11"
     
-    video_id = extract_video_id(auto_subtitles)
+    video_id = extract_video_id(video_url)
     
     transcript = fetch_transcript(video_id, language)
     
-    print(transcript)
+    context = transcript_to_text(transcript=transcript)
+    print(context)
+    
+    # formatter = JSONFormatter()
+    # json_formatted = formatter.format_transcript(transcript)
+    
+    # print(json_formatted)
+    
 
 
 if __name__ == "__main__":
