@@ -1,6 +1,5 @@
 from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api._errors import NoTranscriptFound
-from youtube_transcript_api.formatters import JSONFormatter
+from youtube_transcript_api._errors import NoTranscriptFound, VideoUnavailable
 from urllib import parse
 import re
 
@@ -101,14 +100,16 @@ def fetch_transcript(video_id: str, languages: list[str]) -> list[dict]:
     # Get a list of available transcripts
     
     ytt = YouTubeTranscriptApi()
-    transcript_list = ytt.list(video_id)
+    try: 
+        transcript_list = ytt.list(video_id)
+    except VideoUnavailable:
+        raise ValueError("Video unavailable")
     # Try to find a manually created one
     try:
         transcript = transcript_list.find_manually_created_transcript(languages)
     # If that fails try to find auto generated one in the same language
     except NoTranscriptFound:
         # Try auto-generated
-        print("")
         try:
             transcript = transcript_list.find_generated_transcript(languages)
         except NoTranscriptFound:
@@ -138,7 +139,16 @@ def get_transcript(youtube_url: str, languages: list[str] | None = None) -> str:
     - Convert transcript to clean text
     - Return transcript text
     """
-    ...
+    if languages is None:
+        languages = ["nl", "nl-NL","en-US", "en"]
+        
+    video_id = extract_video_id(youtube_url)
+    
+    transcript = fetch_transcript(video_id, languages)
+    
+    context = transcript_to_text(transcript)
+    
+    return context
 
 
 def main() -> None:
