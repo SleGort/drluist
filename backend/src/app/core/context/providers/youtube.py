@@ -6,28 +6,6 @@ import re
 def extract_video_id(youtube_url: str) -> str:
     """
     Extracts a YouTube video ID from common URL formats.
-
-    Supported formats
-    -----------------
-    - https://www.youtube.com/watch?v=VIDEO_ID
-    - https://youtu.be/VIDEO_ID
-    - https://www.youtube.com/embed/VIDEO_ID
-    - https://www.youtube.com/shorts/VIDEO_ID
-
-    Parameters
-    ----------
-    youtube_url : str
-        The YouTube URL from which to extract the video ID.
-
-    Returns
-    -------
-    str
-        The extracted 11-character YouTube video ID.
-
-    Raises
-    ------
-    ValueError
-        Raised if no plausible video ID can be found in the provided URL.
     """
     
     if not youtube_url or not isinstance(youtube_url, str):
@@ -77,24 +55,7 @@ def extract_video_id(youtube_url: str) -> str:
 def fetch_transcript(video_id: str, languages: list[str]) -> list[dict]:
     """
     Fetches the manually created transcript, reverts to auto-generated transcript 
-    if the manual is unavailable
-
-    Parameters
-    ----------
-    video_id : str
-        String of video id
-    languages : list[str]
-        A list of languages to be used
-
-    Returns
-    -------
-    list[dict]
-        FetchedTranscript object
-
-    Raises
-    ------
-    ValueError
-        Raises an error if no transcript is available.
+    if the manual is unavailable.
     """
     
     # Get a list of available transcripts
@@ -119,29 +80,16 @@ def fetch_transcript(video_id: str, languages: list[str]) -> list[dict]:
     return transcript.fetch()
 
 def transcript_to_text(transcript):
-    
+    """Transforms the transcript snippets into a single string"""
     text =[]
     for snippet in transcript:
         text.append(snippet.text)
     full_text = " ".join(text)
     return full_text
     
-    
-
 
 def get_transcript(youtube_url: str, languages: list[str] | None = None) -> str:
-    """
-    TODO:
-    - If languages is None, default to:
-        ["nl", "nl-NL", "en"]
-    - Extract video_id from youtube_url
-    - Fetch transcript using language preference
-    - Convert transcript to clean text
-    - Return transcript text
-    """
-    if languages is None:
-        languages = ["nl", "nl-NL","en-US", "en"]
-        
+    """ Full pipeline from extracting the video id to holistic context string. """
     video_id = extract_video_id(youtube_url)
     
     transcript = fetch_transcript(video_id, languages)
@@ -150,15 +98,7 @@ def get_transcript(youtube_url: str, languages: list[str] | None = None) -> str:
     
     return context
 
-def main() -> None:
-    """
-    TODO:
-    - Set a test YouTube URL (ideally a Dutch video with Dutch captions)
-    - Call get_transcript(url)
-    - Print the first ~500-1000 characters to verify:
-        - transcript is returned
-        - language looks correct
-    """
+def main():
     # de-DE, fr-FR, nl-Nl, en-US, de, fr, nl, en
     language = ['nl-NL', 'nl', 'en']
     
@@ -166,17 +106,7 @@ def main() -> None:
     auto_subtitles = "https://www.youtube.com/watch?v=XZ1nymJClQc"
     short_vid = "https://www.youtube.com/watch?v=m1cbmZhuxMM&list=PL9sr-h7F8RHol58xIFLN6-cQzoO8aj2E0&index=11"
     
-    video_id = extract_video_id(video_url)
-    
-    transcript = fetch_transcript(video_id, language)
-    
-    context = transcript_to_text(transcript=transcript)
-    print(context)
-    
-    # formatter = JSONFormatter()
-    # json_formatted = formatter.format_transcript(transcript)
-    
-    # print(json_formatted)
+    print(type(get_transcript(video_url, language)))
     
 
 
