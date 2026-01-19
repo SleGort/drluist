@@ -150,7 +150,6 @@ def get_transcript(youtube_url: str, languages: list[str] | None = None) -> str:
     
     return context
 
-
 def main() -> None:
     """
     TODO:
