@@ -9,7 +9,7 @@ dependencies = [
     "youtube-transcript-api",
     "pytest",
     "openai",
-    "fastapi"
+    "fastapi[standard]"
 ]
 
 [build-system]

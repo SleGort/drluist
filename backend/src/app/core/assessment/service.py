@@ -36,6 +36,7 @@ Language and Translation Handling:
 """
 
 def assess_listening_skill(context, user_input, system_prompt):
+    # also if the the assessment is timed out (i.e generating for too long) - i want to retry - send the same api call to openai with the same context and user input (like canceling with ctrl c + running the script again)
     if context and user_input and system_prompt:
         response = client.responses.parse(
         model="gpt-5-mini",

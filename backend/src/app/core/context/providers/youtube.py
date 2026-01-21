@@ -75,7 +75,7 @@ def fetch_transcript(video_id: str, languages: list[str]) -> list[dict]:
             transcript = transcript_list.find_generated_transcript(languages)
         except NoTranscriptFound:
             # Both manual AND auto-generated transcripts failed
-            raise ValueError("Transcript unavailable for the given video ID and languages.")
+            raise ValueError("Transcript unavailable for the given video ID and languages. Check whether the language is correct.")
 
     return transcript.fetch()
 
