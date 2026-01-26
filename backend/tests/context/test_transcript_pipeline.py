@@ -1,6 +1,6 @@
 import pytest
 
-from app.core.context.providers.youtube import get_transcript
+from app.youtube import get_transcript
 
 
 def test_get_transcript_english_known_video():

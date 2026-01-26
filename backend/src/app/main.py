@@ -1,10 +1,10 @@
 # definitions for fast api and main entry point for the app requests
 from pydantic import BaseModel, Field
-from app.core.assessment.assessment_model import Assessment
+from app.assessment_model import Assessment
 
 from fastapi import FastAPI, HTTPException
-from app.core.context.service import build_context
-from app.core.assessment.service import compute_results
+from app.context import build_context
+from app.assessment import compute_results
 
 class AssessRequest(BaseModel):
     url: str

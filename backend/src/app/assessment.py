@@ -1,4 +1,4 @@
-from app.core.context.service import build_context
+from app.context import build_context
 from openai import OpenAI
 from dotenv import load_dotenv
 from .assessment_model import Assessment

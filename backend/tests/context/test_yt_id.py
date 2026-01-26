@@ -1,6 +1,6 @@
 import pytest
 
-from app.core.context.providers.youtube import extract_video_id
+from app.youtube import extract_video_id
 
 
 VALID_ID = "dQw4w9WgXcQ"  # 11 chars

@@ -1,6 +1,6 @@
 # Entry point for building the context from a URL
 
-from .providers.youtube import get_transcript
+from .youtube import get_transcript
 def build_context(url: str, target_language: str):
     
     if not target_language:
