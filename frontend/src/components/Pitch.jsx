@@ -1,10 +1,14 @@
-export default function Pitch({ titleTop, titleAccent, subtitle }) {
+export default function Pitch() {
     return (
-        <section className="pitch">
-            <h1 className="pitch__title">
-                {titleTop} <span className="pitch__accent">{titleAccent}</span>
+        <section className="mb-16 text-center">
+            <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                Master any language through <br className="hidden md:block" />
+                <span className="text-primary">Video Comprehension</span>
             </h1>
-            <p className="pitch__subtitle">{subtitle}</p>
+
+            <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+                Paste a YouTube link, summarize what you heard, and let Dr. Luist evaluate your listening skills with AI.
+            </p>
         </section>
     );
 }
