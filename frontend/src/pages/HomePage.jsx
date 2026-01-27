@@ -35,13 +35,6 @@ export default function HomePage() {
                     />
                 </section>
             </main>
-
-            {/* Footer is kept simple and static to match the design. */}
-            <footer className="max-w-7xl mx-auto px-6 py-12 border-t border-slate-200 text-center mt-20">
-                <p className="text-slate-500 text-sm font-medium">
-                    © 2024 Dr. Luist AI Learning. Built for better understanding.
-                </p>
-            </footer>
         </div>
     );
 }

@@ -2,7 +2,7 @@ export default function Pitch() {
     return (
         <section className="mb-16 text-center">
             <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                Master any language through <br className="hidden md:block" />
+                Master listening skills through <br className="hidden md:block" />
                 <span className="text-primary">Video Comprehension</span>
             </h1>
 
