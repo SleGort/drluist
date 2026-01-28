@@ -1,6 +1,7 @@
 import LanguageSelector from "./LanguageSelector";
 
-export default function SourceCard({ lang, onLangChange, videoUrl, onVideoUrlChange }) {
+
+export default function SourceCard({ lang, onLangChange, videoUrl, onVideoUrlChange, videoId }) {
     return (
         <section className="glass p-8 rounded-3xl shadow-xl shadow-blue-100/50">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -32,6 +33,15 @@ export default function SourceCard({ lang, onLangChange, videoUrl, onVideoUrlCha
                     />
                 </div>
             </div>
+            {videoId && (
+                <div className="mt-6 flex justify-center">
+                    <img
+                        src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+                        alt="Video preview"
+                        className="rounded-2xl border border-slate-200 shadow-md w-full max-w-md"
+                    />
+                </div>
+            )}
         </section>
     );
 }

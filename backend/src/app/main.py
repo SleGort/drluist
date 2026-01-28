@@ -6,6 +6,8 @@ from fastapi import FastAPI, HTTPException
 from app.context import build_context
 from app.assessment import compute_results
 
+from app.youtube import extract_video_id
+
 class AssessRequest(BaseModel):
     url: str
     target_language: str
@@ -14,6 +16,9 @@ class AssessRequest(BaseModel):
 class AssessResponse(BaseModel):
     overall_score: float
     assessment: Assessment
+    
+class VideoIDRequest(BaseModel):
+    url: str
 
 app = FastAPI()
 
@@ -28,3 +33,16 @@ def post_assess(payload: AssessRequest):
         raise HTTPException(status_code=400, detail=str(e))
     except Exception:
         raise HTTPException(status_code=500, detail="Assessment failed.")
+    
+
+
+@app.post("/video_id")
+def post_video_id(payload: VideoIDRequest):
+    try:
+        video_id = extract_video_id(payload.url)
+        return {"video_id": video_id}
+
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception:
+        raise HTTPException(status_code=500, detail="Request for video ID failed.")

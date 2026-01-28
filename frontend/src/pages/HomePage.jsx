@@ -12,6 +12,7 @@ export default function HomePage() {
     const [lang, setLang] = useState("NL");
     const [videoUrl, setVideoUrl] = useState("");
     const [summary, setSummary] = useState("");
+    const [videoId, setVideoId] = useState("");
     const maxChars = 3000;
 
     const handleAssess = async () => {
@@ -50,6 +51,38 @@ export default function HomePage() {
         }
     };
 
+    const fetchVideoId = async (url) => {
+        // send API request for video id only if the video url is present.
+        if (!url) {
+            setVideoId("");
+            return;
+        }
+        // get the video id
+        try {
+            const response = await fetch("/video_id", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.detail || "Could not extract video ID.");
+            }
+
+            setVideoId(data.video_id);
+        } catch (error) {
+            console.error("Video ID extraction failed:", error);
+            setVideoId("");
+        }
+    };
+
+    const handleVideoUrlChange = (value) => {
+        setVideoUrl(value);
+        fetchVideoId(value);
+    };
+
     return (
         <div className="pattern-bg min-h-screen">
             <Navbar />
@@ -60,7 +93,8 @@ export default function HomePage() {
                         lang={lang}
                         onLangChange={setLang}
                         videoUrl={videoUrl}
-                        onVideoUrlChange={setVideoUrl}
+                        onVideoUrlChange={handleVideoUrlChange}
+                        videoId={videoId}
                     />
                     <SummaryCard
                         maxChars={maxChars}

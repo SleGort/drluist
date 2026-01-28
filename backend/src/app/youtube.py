@@ -11,7 +11,7 @@ def extract_video_id(youtube_url: str) -> str:
     if not youtube_url or not isinstance(youtube_url, str):
         raise ValueError("No ID found")
 
-    parsed = parse.urlparse(youtube_url)
+    parsed = parse.urlparse(youtube_url.strip())
     host = (parsed.netloc or "").lower()
     path = parsed.path or ""
 

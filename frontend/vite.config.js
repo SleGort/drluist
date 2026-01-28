@@ -8,6 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/assess": "http://127.0.0.1:8000",
+      "/video_id": "http://127.0.0.1:8000",
     },
   },
 })
