@@ -8,6 +8,7 @@ export default function HomePage() {
     const [lang, setLang] = useState("NL");
     const [videoUrl, setVideoUrl] = useState("");
     const [summary, setSummary] = useState("");
+    const maxChars = 3000;
 
     const handleAssess = () => {
         // Placeholder for future API integration.
@@ -28,7 +29,7 @@ export default function HomePage() {
                         onVideoUrlChange={setVideoUrl}
                     />
                     <SummaryCard
-                        maxChars={3000}
+                        maxChars={maxChars}
                         summary={summary}
                         onSummaryChange={setSummary}
                         onSubmit={handleAssess}

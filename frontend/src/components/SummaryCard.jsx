@@ -22,16 +22,16 @@ export default function SummaryCard({ maxChars, summary, onSummaryChange, onSubm
                     rows={8}
                     placeholder="Type what you understood from the video here..."
                     value={summary}
-                    onChange={(event) => onSummaryChange(event.target.value)}
+                    onChange={(e) => onSummaryChange(e.target.value)}
                 />
 
                 <button
-                    className="w-full bg-primary hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-[1.01] active:scale-95 shadow-lg shadow-primary/20"
+                    className="w-full bg-primary hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-[1.01] active:scale-95 shadow-lg shadow-primary/20 cursor-pointer"
                     type="button"
                     onClick={onSubmit}
                 >
                     {/* Material Symbols work via the font loaded in index.html. */}
-                    <span className="material-symbols-outlined" aria-hidden="true">
+                    <span className="material-symbols-outlined">
                         analytics
                     </span>
                     Assess My Understanding

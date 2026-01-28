@@ -11,7 +11,7 @@ export default function SourceCard({ lang, onLangChange, videoUrl, onVideoUrlCha
                     <h2 className="font-display text-xl font-semibold">Select your source</h2>
                 </div>
 
-                <LanguageSelector value={lang} onChange={onLangChange} />
+                <LanguageSelector value={lang} onLangChange={onLangChange} />
             </header>
 
             <div className="w-full">
@@ -19,7 +19,6 @@ export default function SourceCard({ lang, onLangChange, videoUrl, onVideoUrlCha
                     {/* Icon is positioned absolutely so the input padding can be consistent. */}
                     <span
                         className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-                        aria-hidden="true"
                     >
                         link
                     </span>
