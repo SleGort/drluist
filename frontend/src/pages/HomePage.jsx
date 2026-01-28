@@ -53,7 +53,7 @@ export default function HomePage() {
     return (
         <div className="pattern-bg min-h-screen">
             <Navbar />
-            <main className="max-w-4xl mx-auto px-6 py-12 md:py-20">
+            <main className="max-w-4xl mx-auto px-6 py-12 md:py-20 space-y-8">
                 <Pitch />
                 <section id="source-section" className="space-y-8">
                     <SourceCard
@@ -68,15 +68,29 @@ export default function HomePage() {
                         onSummaryChange={setSummary}
                         onSubmit={handleAssess}
                     />
+
                 </section>
-                <section>
+
+                <section className="space-y-8">
                     {/*
                         Here we have an assessment page that appears conditional on the successful response from the backend
-                    <OverallAssessmentCard />
-                    <AssessmentComponents />
-                    <FurtherDetailsSection />
-                    <BackToTheTopButton />
                     */}
+                    <OverallAssessmentCard overall_score={0.444} />
+                    <AssessmentComponents
+                        coverage={0.1}
+                        semantic_acc={0.1}
+                        relevance={0.345}
+                        completeness={0.123}
+                        clarity={0.1345}
+                    />
+                    <FurtherDetailsSection
+                        good_points={['string', 'string', 'string']}
+                        bad_points={['string', 'string', 'string']}
+                        grammar_score={'B1'}
+                        grammar_text={'LOOONG string'}
+                    />
+                    <BackToTheTopButton />
+
                 </section>
             </main>
         </div>
