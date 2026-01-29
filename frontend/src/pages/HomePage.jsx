@@ -3,16 +3,15 @@ import Navbar from "../components/Navbar";
 import Pitch from "../components/Pitch";
 import SourceCard from "../components/SourceCard";
 import SummaryCard from "../components/SummaryCard";
-import OverallAssessmentCard from "../components/OverallAssessmentCard";
-import AssessmentComponents from "../components/AssessmentComponents";
-import FurtherDetailsSection from "../components/FurtherDetailsSection";
-import BackToTheTopButton from "../components/BackToTheTopButton";
+import AssessmentSection from "../components/AssessmentSection";
+
 
 export default function HomePage() {
     const [lang, setLang] = useState("NL");
     const [videoUrl, setVideoUrl] = useState("");
     const [summary, setSummary] = useState("");
     const [videoId, setVideoId] = useState("");
+    const [assessmentData, setAssessData] = useState(null);
     const maxChars = 3000;
 
     const handleAssess = async () => {
@@ -37,7 +36,7 @@ export default function HomePage() {
                 const message = (typeof data.detail === "string" ? data.detail : "Request failed");
                 throw new Error(message);
             }
-
+            setAssessData(data);
             console.log("Assessment response:", data);
             window.alert("Assessment received. Check console for details.");
 
@@ -104,28 +103,9 @@ export default function HomePage() {
                     />
 
                 </section>
-
-                <section className="space-y-8">
-                    {/*
-                        Here we have an assessment page that appears conditional on the successful response from the backend
-                    */}
-                    <OverallAssessmentCard overall_score={0.444} />
-                    <AssessmentComponents
-                        coverage={0.1}
-                        semantic_acc={0.1}
-                        relevance={0.345}
-                        completeness={0.123}
-                        clarity={0.1345}
-                    />
-                    <FurtherDetailsSection
-                        good_points={['string1', 'string2', 'string3']}
-                        bad_points={['string', 'string', 'string']}
-                        grammar_score={'B1'}
-                        grammar_text={'LOOOOOOOOOOOOOOOOOOOONG string'}
-                    />
-                    <BackToTheTopButton />
-
-                </section>
+                {assessmentData && (
+                    <AssessmentSection assessmentData={assessmentData} />
+                )}
             </main>
         </div>
     );

@@ -5,7 +5,7 @@ import ImprovementCard from './ImprovementCard';
 
 export default function FurtherDetailsSection({
     good_points,
-    bad_points,
+    improvement_points,
     grammar_score,
     grammar_text,
 }) {
@@ -21,7 +21,7 @@ export default function FurtherDetailsSection({
             </h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <GoodCard good_points={good_points} />
-                <ImprovementCard bad_points={bad_points} />
+                <ImprovementCard improvement_points={improvement_points} />
             </div>
             <div className="mt-6">
                 <GrammarCard

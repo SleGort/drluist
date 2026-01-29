@@ -1,5 +1,5 @@
-export default function ImprovementCard({ bad_points }) {
-    const points = Array.isArray(bad_points) ? bad_points : [];
+export default function ImprovementCard({ improvement_points }) {
+    const points = Array.isArray(improvement_points) ? improvement_points : [];
 
     return (
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-100/50 relative overflow-hidden">
