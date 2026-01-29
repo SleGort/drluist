@@ -87,7 +87,7 @@ export default function HomePage() {
         <div className="pattern-bg min-h-screen">
             <Navbar />
             <main className="max-w-4xl mx-auto px-6 py-12 md:py-20 space-y-8">
-                <Pitch />
+                <Pitch id="pitch" />
                 <section id="source-section" className="space-y-8">
                     <SourceCard
                         lang={lang}
