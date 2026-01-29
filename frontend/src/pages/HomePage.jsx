@@ -12,6 +12,8 @@ export default function HomePage() {
     const [summary, setSummary] = useState("");
     const [videoId, setVideoId] = useState("");
     const [assessmentData, setAssessData] = useState(null);
+    const [isAssessing, setIsAssessing] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
     const maxChars = 3000;
 
     const handleAssess = async () => {
@@ -23,6 +25,9 @@ export default function HomePage() {
         };
 
         try {
+            setIsAssessing(true);
+            setShowSuccess(false);
+
             const response = await fetch("/assess", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -37,8 +42,14 @@ export default function HomePage() {
                 throw new Error(message);
             }
             setAssessData(data);
-            console.log("Assessment response:", data);
-            window.alert("Assessment received. Check console for details.");
+            setShowSuccess(true);
+            setTimeout(() => setShowSuccess(false), 5000);
+            setTimeout(() => {
+                const target = document.getElementById("assessment_complete");
+                if (target) {
+                    target.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }, 1000);
 
         } catch (error) {
             if (error.name === "TimeoutError") {
@@ -47,6 +58,8 @@ export default function HomePage() {
                 console.error("Assessment request failed:", error);
                 window.alert(error?.message || "Something went wrong.");
             }
+        } finally {
+            setIsAssessing(false);
         }
     };
 
@@ -100,7 +113,17 @@ export default function HomePage() {
                         summary={summary}
                         onSummaryChange={setSummary}
                         onSubmit={handleAssess}
+                        isAssessing={isAssessing}
                     />
+                    {showSuccess && (
+                        <div
+                            role="alert"
+                            className="bg-green-100 text-green-900 border border-green-200 px-4 py-3 rounded-2xl text-sm font-medium"
+                            id='assessment_complete'
+                        >
+                            Assessment complete.
+                        </div>
+                    )}
 
                 </section>
                 {assessmentData && (

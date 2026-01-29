@@ -3,7 +3,7 @@ import LanguageSelector from "./LanguageSelector";
 
 export default function SourceCard({ lang, onLangChange, videoUrl, onVideoUrlChange, videoId }) {
     return (
-        <section className="glass p-8 rounded-3xl shadow-xl shadow-blue-100/50">
+        <section className="glass p-8 rounded-3xl shadow-xl shadow-blue-100/50" id="source-url">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div className="flex items-center gap-3">
                     <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold text-sm">

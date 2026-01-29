@@ -1,4 +1,30 @@
-export default function SummaryCard({ maxChars, summary, onSummaryChange, onSubmit }) {
+import { useEffect, useState } from "react";
+
+export default function SummaryCard({
+    maxChars,
+    summary,
+    onSummaryChange,
+    onSubmit,
+    isAssessing,
+}) {
+    const [dots, setDots] = useState("");
+
+    useEffect(() => {
+        if (!isAssessing) {
+            setDots("");
+            return;
+        }
+
+        const dotSequence = ["", ".", "..", "..."];
+        let index = 0;
+        const interval = setInterval(() => {
+            index = (index + 1) % dotSequence.length;
+            setDots(dotSequence[index]);
+        }, 500);
+
+        return () => clearInterval(interval);
+    }, [isAssessing]);
+
     return (
         <section className="glass p-8 rounded-3xl shadow-xl shadow-blue-100/50" id="inputSection">
             <header className="flex items-center justify-between mb-6">
@@ -26,15 +52,16 @@ export default function SummaryCard({ maxChars, summary, onSummaryChange, onSubm
                 />
 
                 <button
-                    className="w-full bg-primary hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-[1.01] active:scale-95 shadow-lg shadow-primary/20 cursor-pointer"
+                    className="w-full bg-primary hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-[1.01] active:scale-95 shadow-lg shadow-primary/20 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                     type="button"
                     onClick={onSubmit}
+                    disabled={isAssessing}
                 >
                     {/* Material Symbols work via the font loaded in index.html. */}
                     <span className="material-symbols-outlined">
                         analytics
                     </span>
-                    Assess My Understanding
+                    {isAssessing ? `Assessing${dots}` : "Assess My Understanding"}
                 </button>
             </div>
         </section>

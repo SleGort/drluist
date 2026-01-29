@@ -11,7 +11,7 @@ export default function AssessmentSection({ assessmentData }) {
     const { metrics, details } = assessmentData.assessment;
 
     return (
-        <section className="space-y-8">
+        <section id='assessment' className="space-y-8">
             <OverallAssessmentCard overall_score={assessmentData.overall_score} />
             <AssessmentComponents
                 coverage={metrics?.coverage}

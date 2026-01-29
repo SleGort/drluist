@@ -1,6 +1,6 @@
 export default function BackToTheTopButton() {
     const handleClick = () => {
-        const target = document.getElementById("pitch");
+        const target = document.getElementById("source-section");
         if (target) {
             target.scrollIntoView({ behavior: "smooth", block: "start" });
         } else {
