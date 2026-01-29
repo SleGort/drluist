@@ -5,7 +5,6 @@ export default function AssessmentComponents({
     completeness,
     clarity,
 }) {
-    // convert everything into percentages from the beginning.
     const toPct = (v) => Math.round((v ?? 0) * 100);
 
     const cards = [
@@ -59,7 +58,7 @@ export default function AssessmentComponents({
     return (
         <section className="glass p-8 rounded-3xl shadow-xl shadow-blue-100/50 relative overflow-hidden">
             <h2 className="text-4xl font-black text-slate-900 text-center mb-1">
-                Score Decomposition
+                Score Breakdown
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 p-8 rounded-3xl">
                 {cards.map((c) => (
