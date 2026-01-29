@@ -57,10 +57,10 @@ export default function AssessmentComponents({
 
     return (
         <section className="glass p-8 rounded-3xl shadow-xl shadow-blue-100/50 relative overflow-hidden">
-            <h2 className="text-4xl font-black text-slate-900 text-center mb-1">
+            <h2 className="text-2xl font-black text-slate-900 text-center mb-1">
                 Score Breakdown
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 p-8 rounded-3xl">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-8 rounded-3xl">
                 {cards.map((c) => (
                     <div
                         key={c.key}

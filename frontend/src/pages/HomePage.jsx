@@ -118,10 +118,10 @@ export default function HomePage() {
                         clarity={0.1345}
                     />
                     <FurtherDetailsSection
-                        good_points={['string', 'string', 'string']}
+                        good_points={['string1', 'string2', 'string3']}
                         bad_points={['string', 'string', 'string']}
                         grammar_score={'B1'}
-                        grammar_text={'LOOONG string'}
+                        grammar_text={'LOOOOOOOOOOOOOOOOOOOONG string'}
                     />
                     <BackToTheTopButton />
 
