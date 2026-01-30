@@ -98,6 +98,7 @@ export default function HomePage() {
         fetchVideoId(value);
     };
 
+
     return (
         <div className="pattern-bg min-h-screen">
             <Navbar />
