@@ -11,10 +11,13 @@ export default function About() {
                         About
                     </h1>
                     <p className="text-slate-600 leading-relaxed">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        do eiusmod tempor incididunt ut labore et dolore magna
-                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Hi!👋 My name is Alex, and I am a final year graduate in Business Engineering at VUB.
+                        I have been learning Dutch for quite a while now.
+                        Still, my listening skills could use some improvement, so I've built Dr.Luist to help myself, and hopefully others.
+                        Another excuse to create an app was that I wanted to learn to work with and build APIs to use my machine learning skills in the future projects.
+                        If you enjoy data science and/or like to build stuff, we might get along. Let's connect and build something cool!
+                        P.S If you are curious how I built this project,
+                        <a className="text-blue-800 underline" href="https://github.com/SleGort/drluist">here is the Github link</a>.
                     </p>
                     <div className="pt-2 flex justify-center">
                         <button
