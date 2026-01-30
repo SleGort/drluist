@@ -46,7 +46,8 @@ def assess_listening_skill(context, user_input, system_prompt):
             {"role": "user", "content": f"TRANSCRIPT CONTEXT:\n{context}"},
             {"role": "user", "content": f"STUDENT INPUT:\n{user_input}"},
             ],
-        text_format=Assessment
+        text_format=Assessment,
+        store=False
         )
         return response.output_parsed
     
