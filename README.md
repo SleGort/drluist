@@ -1,3 +1,5 @@
+![Dr.Luist overview](frontend/src/assets/DRLuist.png)
+
 # Dr. Luist
 
 A clean, modern web app for practicing listening comprehension and getting structured feedback on what you heard.
