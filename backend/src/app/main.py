@@ -1,12 +1,15 @@
 # definitions for fast api and main entry point for the app requests
 from pydantic import BaseModel, Field
-from app.assessment_model import Assessment
 
-from fastapi import FastAPI, HTTPException
+from app.assessment_model import Assessment
 from app.context import build_context
 from app.assessment import compute_results
-
 from app.youtube import extract_video_id
+
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
+import os
 
 class AssessRequest(BaseModel):
     url: str
@@ -21,6 +24,16 @@ class VideoIDRequest(BaseModel):
     url: str
 
 app = FastAPI()
+
+frontend_origin = os.getenv("FRONTEND_ORIGIN")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[frontend_origin],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/assess", response_model=AssessResponse)
 def post_assess(payload: AssessRequest):
