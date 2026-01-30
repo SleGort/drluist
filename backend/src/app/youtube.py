@@ -65,8 +65,8 @@ def fetch_transcript(video_id: str, languages: list[str]) -> list[dict]:
     # Get a list of available transcripts
     
     ytt = YouTubeTranscriptApi(proxy_config=WebshareProxyConfig(
-        proxy_username=getenv(PROXY_USERNAME),
-        proxy_password=getenv(PROXY_PASSWORD),
+        proxy_username=getenv("PROXY_USERNAME"),
+        proxy_password=getenv("PROXY_PASSWORD"),
         )
     )
     try: 

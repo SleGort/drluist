@@ -9,7 +9,7 @@ from app.youtube import extract_video_id
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-import os
+from os import getenv
 import logging
 from dotenv import load_dotenv
 
@@ -29,7 +29,7 @@ app = FastAPI()
 logger = logging.getLogger("app")
 
 load_dotenv()
-frontend_origin = os.getenv("FRONTEND_ORIGIN")
+frontend_origin = getenv("FRONTEND_ORIGIN")
 
 app.add_middleware(
     CORSMiddleware,
