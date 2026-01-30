@@ -10,6 +10,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 import os
+import logging
 from dotenv import load_dotenv
 
 class AssessRequest(BaseModel):
@@ -25,6 +26,7 @@ class VideoIDRequest(BaseModel):
     url: str
 
 app = FastAPI()
+logger = logging.getLogger("app")
 
 load_dotenv()
 frontend_origin = os.getenv("FRONTEND_ORIGIN")
@@ -51,7 +53,8 @@ def post_assess(payload: AssessRequest):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception:
-        raise HTTPException(status_code=500, detail="Assessment failed.")
+        logger.exception("Assessment failed in /assess")
+        raise HTTPException(status_code=500, detail="Assessment failed. Check server logs for details.")
     
 
 
