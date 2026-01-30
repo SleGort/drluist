@@ -35,6 +35,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/healthz")
+def health():
+    return {"status": "ok"}
+
 @app.post("/assess", response_model=AssessResponse)
 def post_assess(payload: AssessRequest):
     try:
