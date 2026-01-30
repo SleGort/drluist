@@ -10,6 +10,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 import os
+from dotenv import load_dotenv
 
 class AssessRequest(BaseModel):
     url: str
@@ -25,6 +26,7 @@ class VideoIDRequest(BaseModel):
 
 app = FastAPI()
 
+load_dotenv()
 frontend_origin = os.getenv("FRONTEND_ORIGIN")
 
 app.add_middleware(
