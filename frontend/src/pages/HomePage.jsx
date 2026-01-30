@@ -61,9 +61,9 @@ export default function HomePage() {
             setTimeout(() => {
                 const target = document.getElementById("assessment_complete");
                 if (target) {
-                    target.scrollIntoView({ behavior: "smooth", block: "start" });
+                    target.scrollIntoView({ behavior: "smooth", block: "center" });
                 }
-            }, 1000);
+            }, 300);
 
         } catch (error) {
             if (error.name === "TimeoutError") {
