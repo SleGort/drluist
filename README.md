@@ -13,14 +13,14 @@ A clean, modern web app for practicing listening comprehension and getting struc
 ```
 drluist/                            # Repository root
 ├── backend/                        # Backend service code
-│   ├── src/                        # Backend source code
-│   │   └── app/                    # Application logic
+│   ├── src/                        
+│   │   └── app/                    
 │   │       ├── assessment.py       # Assessment orchestration and utilities
 │   │       ├── assessment_model.py # Scoring/model logic
 │   │       ├── context.py          # Request/session context helpers
 │   │       ├── main.py             # FastAPI app entry point
 │   │       └── youtube.py          # YouTube ID and transcript helpers
-│   └── tests/                      # Backend tests
+│   └── tests/                     
 │       ├── test_transcript_pipeline.py # Transcript pipeline tests
 │       └── test_yt_id.py           # YouTube ID parsing tests
 │   
@@ -31,8 +31,8 @@ drluist/                            # Repository root
 │       ├── main.jsx                # React entry point
 │       ├── index.css               # Global styles and Tailwind setup
 │       ├── assets/                 # Static assets
-│       │   ├── LinkedIn_icon.svg   # LinkedIn icon asset
-│       │   └── linkedin-svgrepo-com.svg # LinkedIn icon variant
+│       │   ├── LinkedIn_icon.svg   
+│       │   └── linkedin-svgrepo-com.svg 
 │       ├── pages/                  # Page-level components
 │       │   ├── About.jsx           # About page
 │       │   └── HomePage.jsx        # Main landing page
