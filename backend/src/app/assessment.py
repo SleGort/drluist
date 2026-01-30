@@ -3,7 +3,6 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from .assessment_model import Assessment
 
-load_dotenv()
 client = OpenAI()
 
 system_prompt = """

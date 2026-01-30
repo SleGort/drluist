@@ -1,7 +1,11 @@
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api.proxies import WebshareProxyConfig
 from youtube_transcript_api._errors import NoTranscriptFound, VideoUnavailable
 from urllib import parse
 import re
+
+from os import getenv
+
 
 def extract_video_id(youtube_url: str) -> str:
     """
@@ -60,7 +64,11 @@ def fetch_transcript(video_id: str, languages: list[str]) -> list[dict]:
     
     # Get a list of available transcripts
     
-    ytt = YouTubeTranscriptApi()
+    ytt = YouTubeTranscriptApi(proxy_config=WebshareProxyConfig(
+        proxy_username=getenv(PROXY_USERNAME),
+        proxy_password=getenv(PROXY_PASSWORD),
+        )
+    )
     try: 
         transcript_list = ytt.list(video_id)
     except VideoUnavailable:
