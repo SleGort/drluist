@@ -16,6 +16,31 @@ export default function HomePage() {
     const [showSuccess, setShowSuccess] = useState(false);
     const maxChars = 3000;
 
+    // Backend base URL:
+    // - local dev: leave empty and rely on Vite proxy (requests to "/assess", "/video_id")
+    // - production: set VITE_API_BASE_URL on Vercel, e.g. "https://your-backend.onrender.com"
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
+
+    const apiUrl = (path) => `${API_BASE}${path}`;
+
+    const postJson = async (path, body, timeoutMs = 120_000) => {
+        const response = await fetch(apiUrl(path), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+            signal: AbortSignal.timeout(timeoutMs),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            const message = (typeof data.detail === "string" ? data.detail : "Request failed");
+            throw new Error(message);
+        }
+
+        return data;
+    };
+
     const handleAssess = async () => {
         // Minimal payload expected by the backend
         const payload = {
@@ -28,19 +53,8 @@ export default function HomePage() {
             setIsAssessing(true);
             setShowSuccess(false);
 
-            const response = await fetch("/assess", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-                signal: AbortSignal.timeout(120_000),
-            });
+            const data = await postJson("/assess", payload, 120_000);
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                const message = (typeof data.detail === "string" ? data.detail : "Request failed");
-                throw new Error(message);
-            }
             setAssessData(data);
             setShowSuccess(true);
             setTimeout(() => setShowSuccess(false), 5000);
@@ -71,18 +85,7 @@ export default function HomePage() {
         }
         // get the video id
         try {
-            const response = await fetch("/video_id", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ url }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.detail || "Could not extract video ID.");
-            }
-
+            const data = await postJson("/video_id", { url }, 20_000);
             setVideoId(data.video_id);
         } catch (error) {
             console.error("Video ID extraction failed:", error);
