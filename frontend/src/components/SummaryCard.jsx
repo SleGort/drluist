@@ -8,6 +8,7 @@ export default function SummaryCard({
     isAssessing,
 }) {
     const [dots, setDots] = useState("");
+    const minChars = 40;
 
     useEffect(() => {
         if (!isAssessing) {
@@ -50,19 +51,24 @@ export default function SummaryCard({
                     value={summary}
                     onChange={(e) => onSummaryChange(e.target.value)}
                 />
+                <p className="text-xs text-slate-400">
+                    Minimum {minChars} characters required.
+                </p>
 
-                <button
-                    className="w-full bg-primary hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-[1.01] active:scale-95 shadow-lg shadow-primary/20 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
-                    type="button"
-                    onClick={onSubmit}
-                    disabled={isAssessing}
-                >
-                    {/* Material Symbols work via the font loaded in index.html. */}
-                    <span className="material-symbols-outlined">
-                        analytics
-                    </span>
-                    {isAssessing ? `Assessing${dots}` : "Assess My Understanding"}
-                </button>
+                {summary.length > minChars && (
+                    <button
+                        className="w-full bg-primary hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-semibold flex items-center justify-center gap-2 transition-all transform hover:scale-[1.01] active:scale-95 shadow-lg shadow-primary/20 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                        type="button"
+                        onClick={onSubmit}
+                        disabled={isAssessing}
+                    >
+                        {/* Material Symbols work via the font loaded in index.html. */}
+                        <span className="material-symbols-outlined">
+                            analytics
+                        </span>
+                        {isAssessing ? `Assessing${dots}` : "Assess My Understanding"}
+                    </button>
+                )}
             </div>
         </section>
     );

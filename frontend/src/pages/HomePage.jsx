@@ -112,13 +112,14 @@ export default function HomePage() {
                         onVideoUrlChange={handleVideoUrlChange}
                         videoId={videoId}
                     />
-                    <SummaryCard
+                    {videoUrl && (<SummaryCard
                         maxChars={maxChars}
                         summary={summary}
                         onSummaryChange={setSummary}
                         onSubmit={handleAssess}
                         isAssessing={isAssessing}
                     />
+                    )}
                     {showSuccess && (
                         <div
                             role="alert"
