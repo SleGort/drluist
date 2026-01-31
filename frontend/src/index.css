@@ -25,6 +25,17 @@
 }
 
 @layer base {
+  html,
+  body {
+    overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
   body {
     @apply bg-background-light text-slate-900 font-sans min-h-screen;
   }
