@@ -1,6 +1,12 @@
-export default function GrammarCard({ grammar_score, grammar_text }) {
+export default function GrammarCard({ grammar_score, grammar_text, grammar_feedback }) {
     const score = grammar_score ?? "--";
     const text = grammar_text ?? "";
+    const commonError = grammar_feedback?.common_error ?? "";
+    const mistakeExamples = Array.isArray(grammar_feedback?.mistake_examples)
+        ? grammar_feedback.mistake_examples
+        : [];
+    const ruleWithExample = grammar_feedback?.rule_with_example ?? "";
+    const hasStructuredFeedback = Boolean(commonError || mistakeExamples.length || ruleWithExample);
 
     return (
         <section className="bg-primary rounded-3xl p-8 md:p-10 text-white shadow-xl shadow-blue-900/20">
@@ -17,9 +23,34 @@ export default function GrammarCard({ grammar_score, grammar_text }) {
                         Grammar Assessment
                     </h3>
                     <div className="bg-black/10 rounded-2xl p-6 border border-white/10 w-full min-w-0 overflow-hidden flex-1">
-                        <p className="text-blue-50 leading-loose text-sm italic whitespace-normal break-all max-w-full">
-                            {text}
-                        </p>
+                        {hasStructuredFeedback ? (
+                            <div className="text-blue-50 leading-loose text-sm whitespace-pre-wrap break-words [overflow-wrap:anywhere] max-w-full space-y-4">
+                                <div>
+                                    <p className="text-blue-100 uppercase tracking-wide text-[10px] font-semibold">Common Error</p>
+                                    <p className="italic">{commonError}</p>
+                                </div>
+                                <div>
+                                    <p className="text-blue-100 uppercase tracking-wide text-[10px] font-semibold">Examples</p>
+                                    {mistakeExamples.length > 0 ? (
+                                        <ul className="list-disc pl-5 space-y-1">
+                                            {mistakeExamples.map((example, idx) => (
+                                                <li key={`${example}-${idx}`}>{example}</li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="italic">No examples provided.</p>
+                                    )}
+                                </div>
+                                <div>
+                                    <p className="text-blue-100 uppercase tracking-wide text-[10px] font-semibold">Rule + Example</p>
+                                    <p className="italic">{ruleWithExample}</p>
+                                </div>
+                            </div>
+                        ) : (
+                            <p className="text-blue-50 leading-loose text-sm italic whitespace-pre-wrap break-words [overflow-wrap:anywhere] max-w-full">
+                                {text}
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>

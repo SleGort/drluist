@@ -25,6 +25,7 @@ export default function AssessmentSection({ assessmentData }) {
                 improvement_points={details?.improvement_points}
                 grammar_score={details?.grammar_score}
                 grammar_text={details?.grammar_text}
+                grammar_feedback={details?.grammar_feedback}
             />
             <BackToTheTopButton />
         </section>

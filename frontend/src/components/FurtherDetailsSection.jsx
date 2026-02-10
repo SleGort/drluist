@@ -8,6 +8,7 @@ export default function FurtherDetailsSection({
     improvement_points,
     grammar_score,
     grammar_text,
+    grammar_feedback,
 }) {
     return (
         <section className="glass p-8 rounded-3xl shadow-xl shadow-blue-100/50 relative overflow-hidden">
@@ -27,6 +28,7 @@ export default function FurtherDetailsSection({
                 <GrammarCard
                     grammar_score={grammar_score}
                     grammar_text={grammar_text}
+                    grammar_feedback={grammar_feedback}
                 />
             </div>
         </section>
